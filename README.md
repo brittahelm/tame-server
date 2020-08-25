@@ -57,6 +57,17 @@ Migraine model
 ```
 
 
+Remedy model
+
+```javascript
+ {
+   name: {type: String, required: true},
+   description: {type: String, required: true},
+   rating: {type: Number}
+ }
+```
+
+
 <br>
 
 
