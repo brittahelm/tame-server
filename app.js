@@ -24,6 +24,12 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+const cors = require('cors')
+app.use(cors({
+  credentials: true, 
+  origin: ['http://localhost:3000']
+}))
+
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -50,9 +56,12 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Express - Generated with IronGenerator';
 
 
-
+// REGISTER ROUTES
 const index = require('./routes/index');
 app.use('/', index);
+
+const migraineRoutes = require('./routes/migraine.routes');
+app.use('/api', migraineRoutes)
 
 
 module.exports = app;
