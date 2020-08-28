@@ -7,7 +7,9 @@ let MigraineSchema = new mongoose.Schema({
     painlevel: Number,
     triggers: [],
     remedies: [],
-    notes: String
+    faveRemedy: String,
+    notes: String,
+    userID: String
 })
 
 let MigraineModel = mongoose.model('migraine', MigraineSchema)
