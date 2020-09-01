@@ -11,6 +11,7 @@ const path         = require('path');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
+//URL ADDED
 
 let mongoDB_URL = process.env.MONGODB_URL || 'mongodb://localhost/tame'
 
