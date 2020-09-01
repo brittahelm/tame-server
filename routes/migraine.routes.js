@@ -8,7 +8,7 @@ const RemedyModel = require('../models/Remedy.model');
 
 
 router.get('/migraines', isLoggedIn, (req, res) => {
-  MigraineModel.find()
+  MigraineModel.find({userID: req.session.loggedInUser._id})
     .then((migraines) => {
       res.status(200).json(migraines)
     })
@@ -34,11 +34,20 @@ router.get('/migraines/:id', isLoggedIn, (req, res) => {
 })
 
 router.post('/migraines/create', isLoggedIn, (req, res) => {
-  const {start, end, painlevel, symptoms, triggers, remedies} = req.body;
+
+  const {start, end, painlevel, symptoms, triggers, remedies, faveRemedy, notes} = req.body;
+
+  if (!start || !painlevel || !symptoms) {
+    res.status(500)
+      .json({
+        errorMessage: 'Please enter start time, pain level and symptoms'
+      });
+    return;  
+  }
 
   let userID = req.session.loggedInUser._id
 
-  MigraineModel.create({start, end, painlevel, symptoms, triggers, remedies, userID})
+  MigraineModel.create({start, end, painlevel, symptoms, triggers, remedies, faveRemedy, notes, userID})
     .then((response) => {
       res.status(200).json(response)
     })
@@ -65,8 +74,8 @@ router.delete('/migraines/:id', isLoggedIn, (req, res) => {
 
 router.patch('/migraines/:id', isLoggedIn, (req, res) => {
   let id = req.params.id
-  const {start, end} = req.body;
-  MigraineModel.findByIdAndUpdate(id, {$set: {start: start, end: end}})
+  const {start, end, painlevel, symptoms, triggers, remedies, notes, faveRemedy} = req.body;
+  MigraineModel.findByIdAndUpdate(id, {$set: {start: start, end: end, painlevel: painlevel, symptoms: symptoms, triggers: triggers, remedies: remedies, notes: notes, faveRemedy: faveRemedy}})
         .then((response) => {
              res.status(200).json(response)
         })

@@ -32,7 +32,7 @@ router.post('/signup', (req, res) => {
   if (!myPassRegex.test(password)) {
     res.status(500)
         .json({
-          errorMessage: 'Password needs to have 8 characters, a number and an Uppercase letter'
+          errorMessage: 'Password needs to have 8 characters, a number and an uppercase letter'
         });
       return;  
   }
@@ -51,7 +51,7 @@ router.post('/signup', (req, res) => {
               if (err.code === 11000) {
                 res.status(500)
                 .json({
-                  errorMessage: 'username or email entered already exists!'
+                  errorMessage: 'Username or email entered already exists!'
                 });
                 return;  
               } 
@@ -72,14 +72,14 @@ router.post('/signin', (req, res) => {
   const {email, password } = req.body;
   if ( !email || !password) {
       res.status(500).json({
-          error: 'Please enter username, email and password',
+          errorMessage: 'Please enter email and password',
      })
     return;  
   }
   const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
   if (!myRegex.test(email)) {
       res.status(500).json({
-          error: 'Email format not correct',
+          errorMessage: 'Email format not correct',
       })
       return;  
   }
@@ -91,19 +91,18 @@ router.post('/signin', (req, res) => {
               if (doesItMatch) {
                 userData.passwordHash = "***";
                 req.session.loggedInUser = userData;
-                console.log('Signin', req.session)
                 res.status(200).json(userData)
               }
               else {
                   res.status(500).json({
-                      error: 'Passwords don\'t match',
+                      errorMessage: 'Passwords don\'t match',
                   })
                 return; 
               }
           })
           .catch(() => {
               res.status(500).json({
-                  error: 'Email format not correct',
+                  errorMessage: 'Email format not correct',
               })
             return; 
           });
@@ -111,7 +110,7 @@ router.post('/signin', (req, res) => {
     .catch((err) => {
       res.status(500).json({
           error: 'Email format not correct',
-          message: err
+          errorMessage: err
       })
       return;  
     });
