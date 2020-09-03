@@ -85,6 +85,9 @@ app.use('/', index);
 const migraineRoutes = require('./routes/migraine.routes');
 app.use('/api', migraineRoutes)
 
+const tipRoutes = require('./routes/tip.routes');
+app.use('/api', tipRoutes)
+
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes)
 
