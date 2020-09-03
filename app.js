@@ -88,5 +88,10 @@ app.use('/api', migraineRoutes)
 const authRoutes = require('./routes/auth.routes');
 app.use('/api', authRoutes)
 
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
+
 
 module.exports = app;
